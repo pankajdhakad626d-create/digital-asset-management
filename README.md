@@ -48,8 +48,7 @@ cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env
 ```
 
-Backend variables: `PORT`, `MONGODB_URI`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, `CLOUDINARY_UPLOAD_TIMEOUT_MS`, `CLOUDINARY_UPLOAD_CHUNK_SIZE_BYTES`, and `CLIENT_URL`. Uploads use 5 MB chunks and a 120-second per-request timeout by default. Keep chunks below Cloudinary's 10 MB per-request limit. The backend also accepts the legacy `MONGODB_URL` name for compatibility with an existing local setup. Frontend uses `VITE_API_BASE_URL`.
-Backend variables: `PORT`, `MONGODB_URI`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, `CLOUDINARY_UPLOAD_TIMEOUT_MS`, `CLOUDINARY_UPLOAD_CHUNK_SIZE_BYTES`, `CLOUDINARY_UPLOAD_RETRIES`, `CLOUDINARY_MAX_UPLOAD_SIZE_BYTES`, and `CLIENT_URL`. Files within the current 10 MB Cloudinary account limit use normal streaming; larger files are rejected before upload with HTTP 413. Uploads use a 300-second timeout and two retries for transient timeout errors. Upgrade/configure the Cloudinary account and raise `CLOUDINARY_MAX_UPLOAD_SIZE_BYTES` to fulfill the application-wide 20 MB limit. The backend also accepts the legacy `MONGODB_URL` name for compatibility with an existing local setup. Frontend uses `VITE_API_BASE_URL`.
+Backend variables: `PORT`, `MONGODB_URI`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, `CLOUDINARY_UPLOAD_TIMEOUT_MS`, `CLOUDINARY_UPLOAD_CHUNK_SIZE_BYTES`, `CLOUDINARY_UPLOAD_RETRIES`, `CLOUDINARY_MAX_UPLOAD_SIZE_BYTES`, and `CLIENT_URL`. Files within the current 10 MB Cloudinary account limit use normal streaming; larger files are rejected before upload with HTTP 413. `CLIENT_URL` may contain comma-separated local and Netlify origins. The backend also accepts the legacy `MONGODB_URL` name. Frontend uses `VITE_API_BASE_URL`.
 
 Never print or commit `.env` files. If credentials have been exposed, rotate them in MongoDB/Cloudinary.
 

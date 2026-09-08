@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: digital-asset-management-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 24.20.0
+      - key: MONGODB_URI
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: CLIENT_URL
+        sync: false
+      - key: CLOUDINARY_UPLOAD_TIMEOUT_MS
+        value: "300000"
+      - key: CLOUDINARY_UPLOAD_CHUNK_SIZE_BYTES
+        value: "6000000"
+      - key: CLOUDINARY_UPLOAD_RETRIES
+        value: "2"
+      - key: CLOUDINARY_MAX_UPLOAD_SIZE_BYTES
+        value: "10485760"

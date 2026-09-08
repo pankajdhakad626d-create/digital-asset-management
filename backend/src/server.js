@@ -8,8 +8,20 @@ const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 const port = process.env.PORT || 5000;
+const allowedOrigins = (process.env.CLIENT_URL || '')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
 
-app.use(cors({ origin: process.env.CLIENT_URL }));
+app.use(cors({
+    origin: (requestOrigin, callback) => {
+        if (!requestOrigin || allowedOrigins.includes(requestOrigin)) {
+            return callback(null, true);
+        }
+
+        return callback(new Error('CORS origin not allowed'));
+    },
+}));
 app.use(express.json());
 app.get('/api/health', (request, response) => response.json({ success: true, data: { status: 'ok' } }));
 app.use('/api/assets', assetRoutes);
