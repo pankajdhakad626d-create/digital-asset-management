@@ -8,18 +8,19 @@ const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 const port = process.env.PORT || 5000;
+const normalizeOrigin = (origin) => origin.trim().replace(/\/$/, '');
 const allowedOrigins = (process.env.CLIENT_URL || '')
     .split(',')
-    .map((origin) => origin.trim())
+    .map(normalizeOrigin)
     .filter(Boolean);
 
 app.use(cors({
     origin: (requestOrigin, callback) => {
-        if (!requestOrigin || allowedOrigins.includes(requestOrigin)) {
+        if (!requestOrigin || allowedOrigins.includes(normalizeOrigin(requestOrigin))) {
             return callback(null, true);
         }
 
-        return callback(new Error('CORS origin not allowed'));
+        return callback(null, false);
     },
 }));
 app.use(express.json());
